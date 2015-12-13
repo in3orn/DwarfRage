@@ -31,6 +31,12 @@ BoxItem {
         width: 120
     }
 
+    onAliveChanged: {
+        if(Math.abs(dwarf.y-parent.y) < 100) {
+            audioManager.playGateSfx();
+        }
+    }
+
     function init() {
         alive = true;
     }

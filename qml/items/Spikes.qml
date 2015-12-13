@@ -28,6 +28,10 @@ BoxItem {
         anchors.centerIn: collider
     }
 
+    onAliveChanged: {
+        audioManager.playWoodSfx();
+    }
+
     function init() {
         alive = true;
     }

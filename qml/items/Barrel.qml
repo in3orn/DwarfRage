@@ -28,6 +28,10 @@ CircleItem {
         anchors.centerIn: collider
     }
 
+    onAliveChanged: {
+        audioManager.playBarrelSfx();
+    }
+
     function init() {
         alive = true;
     }

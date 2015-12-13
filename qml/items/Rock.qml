@@ -22,10 +22,11 @@ BoxItem {
         color: "yellow"
     }
 
-    onAliveChanged: rect.color = "#330000"
+    onAliveChanged: {
+        audioManager.playRockSfx();
+    }
 
     function init() {
         alive = true;
-        rect.color = "yellow"
     }
 }

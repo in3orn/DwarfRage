@@ -40,6 +40,11 @@ EntityBase {
 
         bodyType: Body.Static
         collisionTestingOnlyMode: true
+
+        fixture.onBeginContact: {
+            if(Math.abs(dwarf.y-parent.y) < 100)
+                audioManager.playLavaSfx();
+        }
     }
 
     function init() {

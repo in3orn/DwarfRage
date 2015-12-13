@@ -24,21 +24,31 @@ KrkScene {
     focus: true
 
     Keys.onPressed: {
-        if (event.key === Qt.Key_Left || event.key === Qt.Key_A) {
-            dwarf.moveLeft();
+        if(scene.state === "wait") {
+            scene.state = "play"
             event.accepted = true;
+            return;
         }
-        if (event.key === Qt.Key_Right || event.key === Qt.Key_D) {
-            dwarf.moveRight();
-            event.accepted = true;
+
+        if(scene.state === "play") {
+            if (event.key === Qt.Key_Left || event.key === Qt.Key_A) {
+                dwarf.moveLeft();
+                event.accepted = true;
+            }
+            if (event.key === Qt.Key_Right || event.key === Qt.Key_D) {
+                dwarf.moveRight();
+                event.accepted = true;
+            }
         }
     }
 
     Keys.onReleased:  {
-        if (event.key === Qt.Key_Left || event.key === Qt.Key_A ||
-            event.key === Qt.Key_Right || event.key === Qt.Key_D) {
-            dwarf.release();
-            event.accepted = true;
+        if(scene.state === "play") {
+            if (event.key === Qt.Key_Left || event.key === Qt.Key_A ||
+                event.key === Qt.Key_Right || event.key === Qt.Key_D) {
+                dwarf.release();
+                event.accepted = true;
+            }
         }
     }
 
@@ -469,7 +479,7 @@ KrkScene {
             spawnBiggerItem(rocks);
             break;
         case 8:
-            spawnSideBiggerItem(lavas);
+            spawnBiggerItem(lavas);
             break;
         }
     }
@@ -559,7 +569,7 @@ KrkScene {
         var item = items.itemAt(items.curr);
         item.init();
 
-        var pos = (Math.round() < 0.5) ? 60 : 260;
+        var pos = Math.random() < 0.5 ? 60 : 260;
         item.x = pos;
         item.y = spawnDist;
 

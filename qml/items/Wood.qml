@@ -34,7 +34,10 @@ EntityBase {
         linearDamping: 3
         angularDamping: 3
 
-        fixture.onBeginContact: alive = false
+        fixture.onBeginContact: {
+            audioManager.playWoodSfx();
+            alive = false
+        }
     }
 
     function init() {

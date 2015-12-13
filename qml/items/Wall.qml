@@ -25,6 +25,10 @@ EntityBase {
         categories: Box.Category2
         bodyType: Body.Static
         restitution: 1
+
+        fixture.onBeginContact: {
+            audioManager.playRockSfx();
+        }
     }
 }
 

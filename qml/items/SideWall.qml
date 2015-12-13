@@ -22,6 +22,12 @@ BoxItem {
         fillMode: Image.Tile
     }
 
+    onAliveChanged: {
+        if(Math.abs(dwarf.y-parent.y) < 100) {
+            audioManager.playRockSfx();
+        }
+    }
+
     function init() {
         alive = true;
     }

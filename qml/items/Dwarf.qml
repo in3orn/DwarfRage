@@ -100,6 +100,7 @@ EntityBase {
                     gameScene.bonus += Math.abs(item.rageGain);
                 }
                 else {
+                    audioManager.playDieSfx();
                     alive = false;
                 }
             }
@@ -134,6 +135,7 @@ EntityBase {
 
     onRageChanged: {
         if(alive) {
+            audioManager.playRageSfx();
             animation.jumpTo("jump");
 
             var old = collider.linearVelocity;

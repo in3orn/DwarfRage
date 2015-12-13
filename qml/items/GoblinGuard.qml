@@ -23,7 +23,10 @@ CircleItem {
         color: "green"
     }
 
-    onAliveChanged: rect.color = "red"
+    onAliveChanged: {
+        audioManager.playGoblinSfx();
+        rect.color = "red"
+    }
 
     function init() {
         alive = true;

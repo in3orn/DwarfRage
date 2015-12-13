@@ -97,6 +97,9 @@ EntityBase {
                     animation.jumpTo("jump");
                 }
                 else {
+                    if(Math.abs(dwarf.y-parent.y) < 240) {
+                        audioManager.playGoblinSfx();
+                    }
                     alive = false;
                 }
             }
@@ -132,10 +135,10 @@ EntityBase {
         alive = true;
         rage = 50;
 
+        collider.linearVelocity = Qt.point(0, 0);
+
         x = parent.width/2;
         y = 0;
-
-        collider.linearVelocity = Qt.point(0, 0);
     }
 
     Component.onCompleted: init();

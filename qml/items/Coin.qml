@@ -36,7 +36,12 @@ EntityBase {
         linearDamping: 5
         angularDamping: 5
 
-        fixture.onBeginContact: alive = false
+        fixture.onBeginContact: {
+            if(Math.abs(dwarf.y-parent.y) < 100) {
+                audioManager.playRockSfx();
+            }
+            alive = false
+        }
     }
 
     function init() {
