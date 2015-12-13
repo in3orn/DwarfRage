@@ -12,5 +12,7 @@ Scene {
     readonly property int titleFontSize: 48
     readonly property int normalFontSize: 36
     readonly property int smallFontSize: 24
+
+    readonly property int mm: 10
 }
 

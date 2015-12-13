@@ -22,3 +22,7 @@ ios {
     QMAKE_INFO_PLIST = ios/Project-Info.plist
     OTHER_FILES += $$QMAKE_INFO_PLIST
 }
+
+DISTFILES += \
+    qml/items/BoxItem.qml \
+    qml/items/CircleItem.qml
