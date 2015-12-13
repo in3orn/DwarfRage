@@ -140,6 +140,7 @@ EntityBase {
 
     function init() {
         alive = true;
+        rage = 50;
 
         x = parent.width/2;
         y = 0;

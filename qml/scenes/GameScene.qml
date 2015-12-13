@@ -12,7 +12,7 @@ KrkScene {
     property int distance: -dwarf.y / 10
 
     property real spawnDist: -480
-    property real spawnDiff: 960
+    property real spawnDiff: 480
     property int spawnType: 0
 
     EntityManager {
@@ -148,6 +148,24 @@ KrkScene {
             }
 
             Repeater {
+                id: levelGates
+                model: 2
+
+                property int curr: 0
+
+                LevelGate { }
+            }
+
+            Repeater {
+                id: levelWalls
+                model: 4
+
+                property int curr: 0
+
+                SideWall { }
+            }
+
+            Repeater {
                 id: leftWalls
                 model: 2
 
@@ -191,7 +209,7 @@ KrkScene {
 
                     if(dwarf.y - spawnDist < 480) {
                         spawnDist -= spawnDiff;
-                        if(spawnDiff > 120) spawnDiff -= 0.5;
+                        if(spawnDiff > 120) spawnDiff -= 0.25;
 
                         spawnType++;
                         spawnType %= 12;
@@ -261,13 +279,18 @@ KrkScene {
         State {
             name: "play"
             //PropertyChanges { target: object }
-            StateChangeScript { script: initGame() }
+            StateChangeScript {
+                script: {
+                    initGame();
+                    dwarf.release();
+                }
+            }
         }
     ]
 
     function initGame() {
         spawnDist = -480;
-        spawnDiff = 240;
+        spawnDiff = 480;
         spawnType = 0;
 
         dwarf.init();
@@ -301,12 +324,20 @@ KrkScene {
         goblins.curr = 0;
         for(var i = 0; i < goblins.model; i++)
             goblins.itemAt(i).y = 480;
+
+        levelWalls.curr = 0;
+        for(var i = 0; i < levelWalls.model; i++)
+            levelWalls.itemAt(i).y = 480;
+
+        levelGates.curr = 0;
+        for(var i = 0; i < levelGates.model; i++)
+            levelGates.itemAt(i).y = 480;
     }
 
     function spawnObstacles() {
         switch(spawnType) {
         case 0:
-            //level wall
+            spawnLevelWalls();
             break;
         case 1:
         case 2:
@@ -323,9 +354,38 @@ KrkScene {
             spawnBiggerItem(rocks);
             break;
         case 8:
-            spawnBiggerItem(lavas);
+            spawnSideBiggerItem(lavas);
             break;
         }
+    }
+
+    function spawnLevelWalls() {
+        spawnLevelWall(true);
+        spawnLevelWall(false);
+        spawnLevelGate();
+    }
+
+    function spawnLevelWall(left) {
+        var item = levelWalls.itemAt(levelWalls.curr);
+        item.init();
+
+        var pos = left ? 60 : 260;
+        item.x = pos;
+        item.y = spawnDist;
+
+        levelWalls.curr++;
+        levelWalls.curr %= levelWalls.model;
+    }
+
+    function spawnLevelGate() {
+        var item = levelGates.itemAt(levelGates.curr);
+        item.init();
+
+        item.x = 160;
+        item.y = spawnDist;
+
+        levelGates.curr++;
+        levelGates.curr %= levelGates.model;
     }
 
     function spawnItems(p) {
@@ -359,6 +419,18 @@ KrkScene {
 
         var pos = Math.round(5.0 * Math.random());
         item.x = 60 + 40*pos;
+        item.y = spawnDist;
+
+        items.curr++;
+        items.curr %= items.model;
+    }
+
+    function spawnSideBiggerItem(items) {
+        var item = items.itemAt(items.curr);
+        item.init();
+
+        var pos = Math.round() < 0.5 ? 60 : 260;
+        item.x = pos;
         item.y = spawnDist;
 
         items.curr++;

@@ -3,12 +3,12 @@ import QtQuick 2.0
 
 BoxItem {
     id: item
-    entityType: "rock"
+    entityType: "sideWall"
 
-    width: 80
+    width: 120
     height: 80
 
-    minRage: 50
+    minRage: 100
     rageGain: -minRage
 
     Rectangle {
@@ -19,13 +19,13 @@ BoxItem {
         width: parent.width
         height: parent.height
 
-        color: "yellow"
+        color: "grey"
     }
 
-    onAliveChanged: rect.color = "#330000"
+    onAliveChanged: rect.color = "black"
 
     function init() {
         alive = true;
-        rect.color = "yellow"
+        rect.color = "grey"
     }
 }
