@@ -10,10 +10,12 @@ EntityBase {
     readonly property real vx: 200
     readonly property real vy: 200
 
-    readonly property real maxRage: 400
-    property real rage: 0
+    property real rage: 40
 
     property bool alive: true
+
+    property int minRage: 0
+    property int rageGain: 20
 
     signal owned()
 
@@ -73,6 +75,7 @@ EntityBase {
         id: collider
 
         categories: Box.Category1
+        collidesWith: alive ? Box.Category1 | Box.Category2 : Box.Category2
 
         bodyType: Body.Dynamic
         radius: width/2
@@ -91,29 +94,13 @@ EntityBase {
 
             if(item.minRage !== undefined && alive) {
                 if(rage >= item.minRage) {
-                    item.alive = false;
-                    rage += item.rageGain;
-                    if(rage >= maxRage)
-                        rage = maxRage;
-
-                    //TODO should not be here!
-                    gameScene.bonus += Math.abs(item.rageGain);
+                    animation.jumpTo("jump");
                 }
                 else {
                     alive = false;
                 }
             }
         }
-    }
-
-    function moveLeft() {
-        if(alive)
-            collider.linearVelocity = Qt.point(-vx-rage, -vy-rage);
-    }
-
-    function moveRight() {
-        if(alive)
-            collider.linearVelocity = Qt.point(vx+rage, -vy-rage);
     }
 
     function release() {
@@ -145,10 +132,10 @@ EntityBase {
         alive = true;
         rage = 50;
 
-        collider.linearVelocity = Qt.point(0, 0);
-
         x = parent.width/2;
         y = 0;
+
+        collider.linearVelocity = Qt.point(0, 0);
     }
 
     Component.onCompleted: init();

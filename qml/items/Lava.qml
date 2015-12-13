@@ -3,6 +3,7 @@ import QtQuick 2.0
 
 EntityBase {
     id: item
+    entityType: "lava"
 
     property bool alive: true
 
@@ -14,15 +15,18 @@ EntityBase {
     width: 80
     height: 80
 
-    Rectangle {
-        id: rect
+    AnimatedSpriteVPlay {
+        id: sprite
+
+        source: "../../assets/img/game/lava.png"
+
+        frameCount: 8
+        frameRate: 10
+
+        frameWidth: 80
+        frameHeight: 80
 
         anchors.centerIn: collider
-
-        width: parent.width
-        height: parent.height
-
-        color: "red"
     }
 
     BoxCollider {
@@ -36,13 +40,8 @@ EntityBase {
 
         bodyType: Body.Static
         collisionTestingOnlyMode: true
-
-        fixture.onBeginContact: {
-            console.debug("[Lava]")
-        }
     }
 
     function init() {
-
     }
 }

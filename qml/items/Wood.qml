@@ -2,39 +2,37 @@ import VPlay 2.0
 import QtQuick 2.0
 
 EntityBase {
-    entityType: "barrel"
+    entityType: "wood"
 
-    width: 20
-    height: 20
+    width: 50
+    height: 10
 
     property bool alive: true
 
     MultiResolutionImage {
-        id: rect
+        id: image
 
-        source: "../../assets/img/game/ball.png"
+        source: "../../assets/img/game/wood.png"
 
         anchors.centerIn: collider
     }
 
-    CircleCollider {
+    BoxCollider {
         id: collider
 
         categories: Box.Category4
-        collidesWith: alive ? Box.Category1 : ~Box.Category1
+        collidesWith: alive ? Box.Category1 : ~Box.Category1 & ~Box.Category4
 
         bodyType: Body.Dynamic
 
-        x: -parent.width/2
-        y: -parent.height/2
+        x: -width/2
+        y: -height/2
 
-        radius: 10
-
-        density: 0.01
-        restitution: 1
-        friction: 0.2
-        linearDamping: 5
-        angularDamping: 5
+        density: 0.05
+        restitution: 0.5
+        friction: 0.8
+        linearDamping: 3
+        angularDamping: 3
 
         fixture.onBeginContact: alive = false
     }

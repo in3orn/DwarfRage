@@ -16,6 +16,7 @@ CircleItem {
 
         width: 40
         height: 40
+        radius: 20
 
         anchors.centerIn: collider
 

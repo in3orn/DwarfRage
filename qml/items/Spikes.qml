@@ -11,22 +11,25 @@ BoxItem {
     minRage: 10
     rageGain: -minRage
 
-    Rectangle {
-        id: rect
+    AnimatedSpriteVPlay {
+        id: sprite
+        paused: true
 
-        width: 40
-        height: 40
+        source: "../../assets/img/game/box.png"
+
+        frameCount: 2
+        frameRate: 0
+
+        frameWidth: 40
+        frameHeight: 80
+
+        currentFrame: alive ? 0 : 1
 
         anchors.centerIn: collider
-
-        color: "yellow"
     }
-
-    onAliveChanged: rect.color = "red"
 
     function init() {
         alive = true;
-        rect.color = "green"
     }
 
     Component.onCompleted: init();

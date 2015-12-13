@@ -5,27 +5,33 @@ BoxItem {
     id: item
     entityType: "levelGate"
 
+    z: 1
     width: 80
-    height: 80
+    height: 40
 
     minRage: 20
     rageGain: -minRage
 
-    Rectangle {
-        id: rect
+    MultiResolutionImage {
+        id: light
+
+        source: "../../assets/img/game/gate_light.png"
 
         anchors.centerIn: collider
-
-        width: parent.width
-        height: parent.height
-
-        color: "grey"
     }
 
-    onAliveChanged: rect.color = "black"
+    BackgroundImage {
+        id: image
+
+        source: "../../assets/img/game/sidewall.png"
+
+        anchors.centerIn: collider
+        fillMode: Image.Tile
+
+        width: 120
+    }
 
     function init() {
         alive = true;
-        rect.color = "grey"
     }
 }

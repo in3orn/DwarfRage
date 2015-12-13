@@ -11,22 +11,25 @@ CircleItem {
     minRage: 20
     rageGain: -minRage
 
-    Rectangle {
-        id: rect
+    AnimatedSpriteVPlay {
+        id: sprite
+        paused: true
 
-        width: 40
-        height: 40
+        source: "../../assets/img/game/barrel.png"
+
+        frameCount: 2
+        frameRate: 0
+
+        frameWidth: 65
+        frameHeight: 105
+
+        currentFrame: alive ? 0 : 1
 
         anchors.centerIn: collider
-
-        color: "brown"
     }
-
-    onAliveChanged: rect.color = "red"
 
     function init() {
         alive = true;
-        rect.color = "green"
     }
 
     Component.onCompleted: init();

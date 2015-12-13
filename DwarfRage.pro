@@ -26,4 +26,5 @@ ios {
 DISTFILES += \
     qml/items/BoxItem.qml \
     qml/items/CircleItem.qml \
-    qml/items/SideWall.qml
+    qml/items/SideWall.qml \
+    qml/items/GoblinGuard.qml

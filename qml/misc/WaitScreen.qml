@@ -13,7 +13,10 @@ Item {
 
     Text {
         id: title
-        text: qsTr("Tap to play")
+        text: qsTr("Tap to start!")
+        font.pixelSize: 48
+        color: "white"
+        anchors.centerIn: parent
     }
 
     MouseArea {

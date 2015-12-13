@@ -4,12 +4,13 @@ import QtQuick 2.0
 EntityBase {
     entityType: "wall"
 
-    width: 20
+    width: 40
+    height: 1920
 
     BackgroundImage {
         id: image
 
-        source: "../../assets/img/misc/sidewall.png"
+        source: "../../assets/img/game/sidewall.png"
 
         anchors.fill: collider
         fillMode: Image.Tile

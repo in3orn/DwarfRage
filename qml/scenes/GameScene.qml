@@ -10,6 +10,7 @@ KrkScene {
     id: scene
 
     property int distance: -dwarf.y / 10
+    property int bonus: 0
 
     property real spawnDist: -480
     property real spawnDiff: 480
@@ -18,6 +19,27 @@ KrkScene {
     EntityManager {
         id: entityManager
         entityContainer: container
+    }
+
+    focus: true
+
+    Keys.onPressed: {
+        if (event.key === Qt.Key_Left || event.key === Qt.Key_A) {
+            dwarf.moveLeft();
+            event.accepted = true;
+        }
+        if (event.key === Qt.Key_Right || event.key === Qt.Key_D) {
+            dwarf.moveRight();
+            event.accepted = true;
+        }
+    }
+
+    Keys.onReleased:  {
+        if (event.key === Qt.Key_Left || event.key === Qt.Key_A ||
+            event.key === Qt.Key_Right || event.key === Qt.Key_D) {
+            dwarf.release();
+            event.accepted = true;
+        }
     }
 
     Rectangle {
@@ -70,6 +92,23 @@ KrkScene {
             PhysicsWorld {
                 id: physicsWorld
                 gravity: Qt.point(0,0)
+
+                debugDrawVisible: false
+            }
+
+            Repeater {
+                id: grounds
+                model: 2
+
+                property real diffY: 480
+                property real dy: model*diffY
+
+                property int curr: 0
+
+                Ground {
+                    x: 160
+                    y: -index * height
+                }
             }
 
             Repeater {
@@ -105,8 +144,36 @@ KrkScene {
 
                 property int curr: 0
 
-                Goblin { }
+                GoblinGuard { }
             }
+
+            Repeater {
+                id: goblinCowards
+                model: 10
+
+                property int curr: 0
+
+                GoblinCoward { }
+            }
+
+            Repeater {
+                id: bricks
+                model: 30
+
+                property int curr: 0
+
+                Brick {}
+            }
+
+            Repeater {
+                id: woods
+                model: 10
+
+                property int curr: 0
+
+                Wood {}
+            }
+
 
             Repeater {
                 id: coins
@@ -175,10 +242,8 @@ KrkScene {
                 property int curr: 0
 
                 Wall {
-                    x: 10
+                    x: 0
                     y: -index * height
-
-                    height: leftWalls.diffY
                 }
             }
 
@@ -192,18 +257,17 @@ KrkScene {
                 property int curr: 0
 
                 Wall {
-                    x: 310
+                    x: 320
                     y: -index * height
-
-                    height: rightWalls.diffY
                 }
             }
 
             Dwarf {
                 id: dwarf
-                onOwned: scene.state = "wait"
+                onOwned: scene.state = "gameOver"
 
                 onYChanged: {
+                    GameLogic.updatePosition(grounds, dwarf.y);
                     GameLogic.updatePosition(leftWalls, dwarf.y);
                     GameLogic.updatePosition(rightWalls, dwarf.y);
 
@@ -215,6 +279,10 @@ KrkScene {
                         spawnType %= 12;
 
                         spawnObstacles();
+
+                        if(Math.random() < 0.5) {
+                            spawnGoblinCoward();
+                        }
                     }
                 }
             }
@@ -233,6 +301,17 @@ KrkScene {
             anchors.centerIn: parent
 
             onActivated: scene.state = "play"
+        }
+
+        GameOverScreen {
+            id: gameOverScreen
+
+            score: distance + bonus
+
+            anchors.centerIn: parent
+
+            onPlayClicked: scene.state = "play";
+            onExitClicked: backButtonPressed();
         }
 
         KrkProgressBar {
@@ -257,7 +336,7 @@ KrkScene {
 
         Text {
             id: distanceText
-            text: qsTr("Distance: " + distance)
+            text: qsTr("Discance: " + distance)
             color: "white"
 
             anchors {
@@ -265,6 +344,19 @@ KrkScene {
                 left: parent.left
                 margins: mm
                 leftMargin: 80 + mm
+            }
+        }
+
+        Text {
+            id: bonusText
+            text: qsTr("Bonus: " + bonus)
+            color: "white"
+
+            anchors {
+                top: parent.top
+                right: parent.right
+                margins: mm
+                rightMargin: 120 + mm
             }
         }
     }
@@ -277,8 +369,11 @@ KrkScene {
             PropertyChanges { target: waitScreen; state: "shown" }
         },
         State {
+            name: "gameOver"
+            PropertyChanges { target: gameOverScreen; state: "shown" }
+        },
+        State {
             name: "play"
-            //PropertyChanges { target: object }
             StateChangeScript {
                 script: {
                     initGame();
@@ -289,17 +384,25 @@ KrkScene {
     ]
 
     function initGame() {
+        bonus = 0;
+
         spawnDist = -480;
         spawnDiff = 480;
         spawnType = 0;
 
         dwarf.init();
 
+        for(var i = 0; i < grounds.model; i++)
+            grounds.itemAt(i).y = -i * grounds.diffY;
+
         for(var i = 0; i < leftWalls.model; i++)
             leftWalls.itemAt(i).y = -i * leftWalls.diffY;
 
         for(var i = 0; i < rightWalls.model; i++)
             rightWalls.itemAt(i).y = -i * rightWalls.diffY;
+
+
+
 
         lavas.curr = 0;
         for(var i = 0; i < lavas.model; i++)
@@ -313,10 +416,6 @@ KrkScene {
         for(var i = 0; i < barrels.model; i++)
             barrels.itemAt(i).y = 480;
 
-        coins.curr = 0;
-        for(var i = 0; i < coins.model; i++)
-            coins.itemAt(i).init();
-
         spikes.curr = 0;
         for(var i = 0; i < spikes.model; i++)
             spikes.itemAt(i).y = 480;
@@ -325,6 +424,10 @@ KrkScene {
         for(var i = 0; i < goblins.model; i++)
             goblins.itemAt(i).y = 480;
 
+        goblinCowards.curr = 0;
+        for(var i = 0; i < goblinCowards.model; i++)
+            goblinCowards.itemAt(i).y = 480;
+
         levelWalls.curr = 0;
         for(var i = 0; i < levelWalls.model; i++)
             levelWalls.itemAt(i).y = 480;
@@ -332,6 +435,18 @@ KrkScene {
         levelGates.curr = 0;
         for(var i = 0; i < levelGates.model; i++)
             levelGates.itemAt(i).y = 480;
+
+        coins.curr = 0;
+        for(var i = 0; i < coins.model; i++)
+            coins.itemAt(i).init();
+
+        bricks.curr = 0;
+        for(var i = 0; i < bricks.model; i++)
+            bricks.itemAt(i).init();
+
+        woods.curr = 0;
+        for(var i = 0; i < woods.model; i++)
+            woods.itemAt(i).init();
     }
 
     function spawnObstacles() {
@@ -363,6 +478,21 @@ KrkScene {
         spawnLevelWall(true);
         spawnLevelWall(false);
         spawnLevelGate();
+
+        for(var i = 0; i < 3; i += 0.5) {
+            spawnItem(bricks, i);
+            spawnItem(bricks, i);
+        }
+
+        for(var i = 4; i < 7; i += 0.5) {
+            spawnItem(bricks, i);
+            spawnItem(bricks, i);
+        }
+
+        for(var i = 2.5; i < 5; i += 0.5) {
+            spawnItem(woods, i);
+            spawnItem(woods, i);
+        }
     }
 
     function spawnLevelWall(left) {
@@ -429,7 +559,7 @@ KrkScene {
         var item = items.itemAt(items.curr);
         item.init();
 
-        var pos = Math.round() < 0.5 ? 60 : 260;
+        var pos = (Math.round() < 0.5) ? 60 : 260;
         item.x = pos;
         item.y = spawnDist;
 
@@ -443,6 +573,19 @@ KrkScene {
 
         coins.curr++;
         coins.curr %= coins.model;
+    }
+
+    function spawnGoblinCoward() {
+        var item = goblinCowards.itemAt(goblinCowards.curr);
+        item.init();
+
+        var pos = Math.round(5.0 * Math.random());
+        item.x = 60 + 40*pos;
+        item.y = spawnDist+240;
+        item.release();
+
+        goblinCowards.curr++;
+        goblinCowards.curr %= goblinCowards.model;
     }
 
     Component.onCompleted: initGame();

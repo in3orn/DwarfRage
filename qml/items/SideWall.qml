@@ -5,27 +5,24 @@ BoxItem {
     id: item
     entityType: "sideWall"
 
+    z: 1
+
     width: 120
-    height: 80
+    height: 40
 
     minRage: 100
     rageGain: -minRage
 
-    Rectangle {
-        id: rect
+    BackgroundImage {
+        id: image
 
-        anchors.centerIn: collider
+        source: "../../assets/img/game/sidewall.png"
 
-        width: parent.width
-        height: parent.height
-
-        color: "grey"
+        anchors.fill: collider
+        fillMode: Image.Tile
     }
-
-    onAliveChanged: rect.color = "black"
 
     function init() {
         alive = true;
-        rect.color = "grey"
     }
 }
