@@ -13,8 +13,8 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     vplay.initialize(&engine);
 
-    vplay.setMainQmlFileName(QStringLiteral("qml/Main.qml"));
-    //vplay.setMainQmlFileName(QStringLiteral("qrc:/qml/Main.qml"));
+    //vplay.setMainQmlFileName(QStringLiteral("qml/Main.qml"));
+    vplay.setMainQmlFileName(QStringLiteral("qrc:/qml/Main.qml"));
 
     engine.load(QUrl(vplay.mainQmlFileName()));
 

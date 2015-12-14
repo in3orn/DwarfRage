@@ -2,8 +2,8 @@ import VPlay 2.0
 import QtQuick 2.0
 
 VPlayGameNetwork {
-    gameId: 191
-    secret: "YouAreNotABloodyPirate57!"
+    gameId: 200
+    secret: "ILikeToBeADwarfInRage01!"
 
     //clearAllUserDataAtStartup: true
 

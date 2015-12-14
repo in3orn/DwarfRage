@@ -9,7 +9,8 @@ DEPLOYMENTFOLDERS += assetsFolder
 
 # Add more folders to ship with the application here
 
-RESOURCES += #    resources.qrc # uncomment for publishing
+RESOURCES += resources.qrc # uncomment for publishing
+    resources.qrc
 
 SOURCES += main.cpp
 
@@ -22,9 +23,3 @@ ios {
     QMAKE_INFO_PLIST = ios/Project-Info.plist
     OTHER_FILES += $$QMAKE_INFO_PLIST
 }
-
-DISTFILES += \
-    qml/items/BoxItem.qml \
-    qml/items/CircleItem.qml \
-    qml/items/SideWall.qml \
-    qml/items/GoblinGuard.qml

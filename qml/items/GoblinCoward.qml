@@ -22,14 +22,14 @@ EntityBase {
     SpriteSequenceVPlay {
         id: animation
 
-        defaultSource: "../../assets/img/game/dwarf.png"
+        defaultSource: "../../assets/img/game/goblin_running.png"
 
         anchors.centerIn: collider
 
         SpriteVPlay {
             name: "walk"
-            frameWidth: 32
-            frameHeight: 32
+            frameWidth: 40
+            frameHeight: 40
             frameCount: 4
             startFrameColumn: 1
             frameRate: 20
@@ -37,8 +37,8 @@ EntityBase {
         }
         SpriteVPlay {
             name: "whirl"
-            frameWidth: 32
-            frameHeight: 32
+            frameWidth: 40
+            frameHeight: 40
             frameCount: 2
             startFrameColumn: 14
             frameRate: 20
@@ -46,8 +46,8 @@ EntityBase {
         }
         SpriteVPlay {
             name: "jump"
-            frameWidth: 32
-            frameHeight: 32
+            frameWidth: 40
+            frameHeight: 40
             frameCount: 4
             startFrameColumn: 5
             frameRate: 10
@@ -55,8 +55,8 @@ EntityBase {
         }
         SpriteVPlay {
             name: "die"
-            frameWidth: 32
-            frameHeight: 32
+            frameWidth: 40
+            frameHeight: 40
             frameCount: 3
             startFrameColumn: 10
             frameRate: 10
@@ -65,8 +65,8 @@ EntityBase {
         SpriteVPlay {
             name: "dieLastFrame"
             startFrameColumn: 12
-            frameWidth: 32
-            frameHeight: 32
+            frameWidth: 40
+            frameHeight: 40
             to: {"dieLastFrame": 1}
         }
     }

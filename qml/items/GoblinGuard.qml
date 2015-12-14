@@ -11,26 +11,29 @@ CircleItem {
     minRage: 0
     rageGain: 20
 
-    Rectangle {
-        id: rect
+    AnimatedSpriteVPlay {
+        id: sprite
+        paused: true
 
-        width: 40
-        height: 40
-        radius: 20
+        source: "../../assets/img/game/goblin_static.png"
+
+        frameCount: 2
+        frameRate: 0
+
+        frameWidth: 40
+        frameHeight: 40
+
+        currentFrame: alive ? 0 : 1
 
         anchors.centerIn: collider
-
-        color: "green"
     }
 
     onAliveChanged: {
         audioManager.playGoblinSfx();
-        rect.color = "red"
     }
 
     function init() {
         alive = true;
-        rect.color = "green"
     }
 
     Component.onCompleted: init();

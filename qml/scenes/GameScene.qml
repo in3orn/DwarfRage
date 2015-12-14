@@ -274,7 +274,10 @@ KrkScene {
 
             Dwarf {
                 id: dwarf
-                onOwned: scene.state = "gameOver"
+                onOwned: {
+                    gameNetwork.reportScore(distance + bonus);
+                    scene.state = "gameOver"
+                }
 
                 onYChanged: {
                     GameLogic.updatePosition(grounds, dwarf.y);

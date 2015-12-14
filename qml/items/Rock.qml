@@ -6,20 +6,26 @@ BoxItem {
     entityType: "rock"
 
     width: 80
-    height: 80
+    height: 40
 
     minRage: 50
     rageGain: -minRage
 
-    Rectangle {
-        id: rect
+    AnimatedSpriteVPlay {
+        id: sprite
+        paused: true
+
+        source: "../../assets/img/game/rock.png"
+
+        frameCount: 2
+        frameRate: 0
+
+        frameWidth: 80
+        frameHeight: 40
+
+        currentFrame: alive ? 0 : 1
 
         anchors.centerIn: collider
-
-        width: parent.width
-        height: parent.height
-
-        color: "yellow"
     }
 
     onAliveChanged: {
