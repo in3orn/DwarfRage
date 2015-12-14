@@ -12,6 +12,12 @@ Item {
         else die1.play();
     }
 
+    function playRageSfx() {
+        if(muted) return;
+        if(Math.random() < 0.5) rage0.play()
+        else rage1.play();
+    }
+
     function playGoblinSfx() {
         if(muted) return;
         var r = Math.random();

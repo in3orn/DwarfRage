@@ -22,7 +22,7 @@ Item {
 
     BackgroundMusic {
         id: music
-        source: "../assets/music/dummy.wav"
+        source: "../assets/music/music.wav"
         muted: !settings.musicEnabled
     }
 
